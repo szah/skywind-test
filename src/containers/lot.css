@@ -1,0 +1,10 @@
+@component parking {
+	border: 1px solid red;
+	display: flex;
+	flex-wrap: wrap;
+	@descendent lot {
+		border: 1px solid black;
+		width: 150px;
+		height: 100px;
+	}
+}
