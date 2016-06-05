@@ -4,6 +4,7 @@ import initialState, { config } from '../initial-parking-lot-state';
 import constants from '../constants';
 import flowRight from 'lodash/flowRight';
 import flatMap from 'lodash/fp/flatMap';
+import filter from 'lodash/fp/filter';
 import head from 'lodash/head';
 
 const mapCarTypeToLotType = {
@@ -17,12 +18,14 @@ const mapCarTypeToLotType = {
 };
 
 const withType = type => entity => entity.type === type;
+const withCar = car => entity => entity.car === car;
 
 const parkCar = ({ carType, id }) => state => {
     const eligibleLotTypes = mapCarTypeToLotType[carType];
 
     const firstSpot = flowRight(
         head,
+        filter(withCar(null)),
         flatMap(lotType => state.entities.filter(withType(lotType)))
     )(eligibleLotTypes);
 
@@ -53,20 +56,24 @@ const resetLot = ({ id }) => state => ({
     }),
 });
 
+const carsCountByTypes = types => state => flatMap(type => state.entities.filter(
+    withType(type)
+))(types);
+
 const updateMeta = state => ({
     ...state,
     meta: {
         ...state.meta,
         freeSpots: {
-            [constants.carTypes.sedan]: state.entities.filter(
-                withType(constants.carTypes.sedan)
-            ).length,
-            [constants.carTypes.truck]: state.entities.filter(
-                withType(constants.carTypes.truck)
-            ).length,
-            [constants.carTypes.disable]: state.entities.filter(
-                withType(constants.carTypes.disable)
-            ).length,
+            [constants.carTypes.sedan]: carsCountByTypes(
+                mapCarTypeToLotType[constants.carTypes.sedan]
+            )(state).length,
+            [constants.carTypes.truck]: carsCountByTypes(
+                mapCarTypeToLotType[constants.carTypes.truck]
+            )(state).length,
+            [constants.carTypes.disable]: carsCountByTypes(
+                mapCarTypeToLotType[constants.carTypes.disable]
+            )(state).length,
         },
     },
 });
