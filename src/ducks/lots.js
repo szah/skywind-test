@@ -65,14 +65,23 @@ const updateMeta = state => ({
     meta: {
         ...state.meta,
         freeSpots: {
-            [constants.carTypes.sedan]: carsCountByTypes(
-                mapCarTypeToLotType[constants.carTypes.sedan]
+            [constants.carTypes.sedan]: flowRight(
+                filter(withCar(null)),
+                carsCountByTypes(
+                    mapCarTypeToLotType[constants.carTypes.sedan]
+                )
             )(state).length,
-            [constants.carTypes.truck]: carsCountByTypes(
-                mapCarTypeToLotType[constants.carTypes.truck]
+            [constants.carTypes.truck]: flowRight(
+                filter(withCar(null)),
+                carsCountByTypes(
+                    mapCarTypeToLotType[constants.carTypes.truck]
+                )
             )(state).length,
-            [constants.carTypes.disable]: carsCountByTypes(
-                mapCarTypeToLotType[constants.carTypes.disable]
+            [constants.carTypes.disable]: flowRight(
+                filter(withCar(null)),
+                carsCountByTypes(
+                    mapCarTypeToLotType[constants.carTypes.disable]
+                )
             )(state).length,
         },
     },
