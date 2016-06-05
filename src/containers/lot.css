@@ -1,10 +1,38 @@
 @component parking {
-	border: 1px solid red;
-	display: flex;
-	flex-wrap: wrap;
-	@descendent lot {
-		border: 1px solid black;
-		width: 150px;
-		height: 100px;
-	}
+    border: 1px solid red;
+    display: flex;
+    flex-wrap: wrap;
+    @descendent lot {
+        border: 1px solid black;
+        width: 150px;
+        height: 100px;
+        @modifier sedan {
+            background: #bff7e8;
+        }
+        @modifier truck {
+            background: #ffc4c4;
+        }
+        @modifier disable {
+            background: #a3d7ff;
+        }
+    }
+}
+
+@component car {
+	font-weight: 700;
+	font-size: 20px;
+	transition: color 0.3s ease-in;
+
+    @modifier no-car {
+        color: black;
+    }
+    @modifier sedan {
+        color: #b9ad43;
+    }
+    @modifier truck {
+        color: #1c776f;
+    }
+    @modifier disable {
+        color: #b9439e;
+    }
 }

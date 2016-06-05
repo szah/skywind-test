@@ -1,4 +1,5 @@
 import isFunction from 'lodash/isFunction';
+import reject from 'lodash/fp/reject';
 
 export const CAR_ARRIVED = 'parkingLot/cars/CAR_ARRIVED';
 export const CAR_DISMISSED = 'parkingLot/cars/CAR_DISMISSED';
@@ -15,14 +16,14 @@ export const carDismissed = (id) => ({
 });
 
 export const withId = id => entity => entity.id === id;
-const notWithId = id => entity => entity.id !== id;
+export const notWithId = id => entity => entity.id !== id;
 
 const actionsLookup = {
     [CAR_ARRIVED]: (state, action) => [...state, {
         id: action.id,
         type: action.carType,
     }],
-    [CAR_DISMISSED]: (state, action) => state.filter(notWithId(action.id)),
+    [CAR_DISMISSED]: (state, action) => reject(withId(action.id))(state),
 };
 
 export default function cars(state = [], action) {

@@ -5,8 +5,8 @@ import keys from 'lodash/keys';
 import range from 'lodash/range';
 
 export const config = {
-    sedan: 20,
-    truck: 10,
+    sedan: 15,
+    truck: 8,
     disable: 5,
 };
 

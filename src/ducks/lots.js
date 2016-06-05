@@ -1,6 +1,6 @@
 import isFunction from 'lodash/isFunction';
 import { CAR_ARRIVED, CAR_DISMISSED } from './cars';
-import initialState, { config } from '../initial-parking-lot-state';
+import initialState from '../initial-parking-lot-state';
 import constants from '../constants';
 import flowRight from 'lodash/flowRight';
 import flatMap from 'lodash/fp/flatMap';
@@ -18,7 +18,7 @@ const mapCarTypeToLotType = {
 };
 
 const withType = type => entity => entity.type === type;
-const withCar = car => entity => entity.car === car;
+export const withCar = car => entity => entity.car === car;
 
 const parkCar = ({ carType, id }) => state => {
     const eligibleLotTypes = mapCarTypeToLotType[carType];
@@ -100,11 +100,7 @@ const actionsLookup = {
 
 export default function lots(state = {
     entities: initialState,
-    meta: {
-        freeSpots: {
-            ...config,
-        },
-    },
+    meta: updateMeta({ entities: initialState }).meta,
 }, action) {
     if (isFunction(actionsLookup[action.type])) return actionsLookup[action.type](state, action);
 
